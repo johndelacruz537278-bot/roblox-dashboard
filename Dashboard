@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NPC DROPLETS – Roblox Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-slate-900 to-slate-800 text-white min-h-screen">
+
+  <!-- HEADER -->
+  <header class="p-6 border-b border-white/10">
+    <h1 class="text-3xl font-bold">🎮 NPC DROPLETS – Admin Dashboard</h1>
+    <p class="text-white/60">Roblox Game Player Monitor</p>
+  </header>
+
+  <!-- STATS -->
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
+    <div class="bg-white/10 rounded-2xl p-6 shadow">
+      <h2 class="text-lg">Active Players</h2>
+      <p id="activeCount" class="text-4xl font-bold mt-2">0</p>
+    </div>
+    <div class="bg-white/10 rounded-2xl p-6 shadow">
+      <h2 class="text-lg">Total Players</h2>
+      <p id="totalCount" class="text-4xl font-bold mt-2">0</p>
+    </div>
+    <div class="bg-white/10 rounded-2xl p-6 shadow">
+      <h2 class="text-lg">Total Coins</h2>
+      <p id="totalCoins" class="text-4xl font-bold mt-2">0</p>
+    </div>
+  </section>
+
+  <!-- TABLE -->
+  <section class="p-6">
+    <div class="bg-white/10 rounded-2xl p-6 shadow overflow-x-auto">
+      <h2 class="text-2xl font-semibold mb-4">👥 Players</h2>
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="text-white/70 border-b border-white/10">
+            <th class="py-2">Username</th>
+            <th>Status</th>
+            <th>Coins</th>
+            <th>Last Active</th>
+          </tr>
+        </thead>
+        <tbody id="playerTable"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SCRIPT -->
+  <script>
+    // SAMPLE DATA (papalitan ng galing sa Roblox via API / Webhook)
+    const players = [
+      { name: "PlayerOne", active: true, coins: 1200, last: "Online" },
+      { name: "NoobMaster", active: false, coins: 300, last: "5 mins ago" },
+      { name: "NPC_King", active: true, coins: 5420, last: "Online" }
+    ];
+
+    const table = document.getElementById("playerTable");
+    let active = 0;
+    let totalCoins = 0;
+
+    players.forEach(p => {
+      if (p.active) active++;
+      totalCoins += p.coins;
+
+      const row = document.createElement("tr");
+      row.className = "border-b border-white/5";
+      row.innerHTML = `
+        <td class="py-2 font-semibold">${p.name}</td>
+        <td class="${p.active ? 'text-green-400' : 'text-red-400'}">${p.active ? 'Active' : 'Offline'}</td>
+        <td>💰 ${p.coins}</td>
+        <td class="text-white/60">${p.last}</td>
+      `;
+      table.appendChild(row);
+    });
+
+    document.getElementById("activeCount").textContent = active;
+    document.getElementById("totalCount").textContent = players.length;
+    document.getElementById("totalCoins").textContent = totalCoins;
+  </script>
+
+</body>
+</html>
